@@ -26,9 +26,8 @@ Các thành viên sử dụng chung phiên bản dependencies được khai báo
 
 Trước khi làm việc, mỗi thành viên cần cài đặt:
 
-- **Node.js và npm:** [BỔ SUNG LINK HƯỚNG DẪN CÀI ĐẶT NODE.JS]
+- **Node.js và npm:** https://nodejs.org/en/download
 - **Git:** quản lý mã nguồn.
-- **Visual Studio Code:** trình soạn thảo được khuyến nghị.
 
 Kiểm tra cài đặt:
 
