@@ -1,0 +1,20 @@
+$directories = @(
+    "src/components/ui",
+    "src/data/mock",
+    "src/features/auth",
+    "src/features/charging",
+    "src/features/incidents",
+    "src/features/mobility-hub",
+    "src/features/monitoring",
+    "src/features/reservations",
+    "src/features/simulation",
+    "src/features/vehicle-coordination",
+    "src/layouts",
+    "src/routes",
+    "src/types",
+    "src/utils"
+)
+
+foreach ($directory in $directories) {
+    New-Item -ItemType File -Force -Path "$directory/.gitkeep" | Out-Null
+}
