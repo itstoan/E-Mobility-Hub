@@ -17,47 +17,56 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>()(
-persist(
-    (set, get) => {
-      // Internal helper: không expose ra component
-        const setCurrentUser = (user: User | null) => {
-            set({
-                currentUser: user,
-                authStatus: user ? 'authenticated' : 'unauthenticated',
-            })
-        }
-
-        return {
-            currentUser: null,
-            authStatus: 'initializing',
-            initializeAuth: () => {
+    persist(
+        (set, get) => {
+            // Internal helper: không expose ra component
+            const setCurrentUser = (user: User | null) => {
                 set({
-                    authStatus: get().currentUser
-                    ? 'authenticated'
-                    : 'unauthenticated',
+                    currentUser: user,
+                    authStatus: user ? 'authenticated' : 'unauthenticated',
                 })
-            },
-            login: async (_email, _password) => {
-            // Sẽ tích hợp Mock User Data sau khi Member B hoàn thành.
-            },
-            logout: () => setCurrentUser(null),
-            setAuthError: () => {
-                set({ authStatus: 'error' })
-            },
-        }
-    },
-    {
-        name: 'auth-storage',
-        partialize: (state) => ({
-            currentUser: state.currentUser,
-        }),
-        onRehydrateStorage: () => (state, error) => {
-            if (error) {
-            state?.setAuthError()
-            return
             }
-        state?.initializeAuth()
+
+            return {
+                currentUser: null,
+                authStatus: 'initializing',
+                initializeAuth: () => {
+                    set({
+                        authStatus: get().currentUser
+                            ? 'authenticated'
+                            : 'unauthenticated',
+                    })
+                },
+                login: async (_email, _password) => {
+                    // Sẽ tích hợp Mock User Data sau khi Member B hoàn thành.
+                },
+                logout: () => setCurrentUser(null),
+                setAuthError: () => {
+                    set({ authStatus: 'error' })
+                },
+            }
         },
-    },
-),
+        {
+            name: 'auth-storage',
+            partialize: (state) => ({
+                currentUser: state.currentUser,
+            }),
+            onRehydrateStorage: () => (state, error) => {
+                if (error) {
+                    state?.setAuthError()
+                    return
+                }
+                state?.initializeAuth()
+            },
+        },
+    ),
 )
+
+// placeholder để chạy được, nhớ xóa
+export interface User {
+    id: string;
+    name?: string;
+    email?: string;
+    role: 'student' | 'operator';
+    [key: string]: unknown;
+}
