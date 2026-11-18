@@ -1,5 +1,6 @@
 import { Link, Route, Routes } from 'react-router'
 import { useAppStore } from './stores/useAppStore'
+import { AuthInitializer } from './features/auth/components/AuthInitializer'
 
 function HomePage() {
   const sidebarOpen = useAppStore((state) => state.sidebarOpen)
@@ -64,10 +65,12 @@ function DashboardPage() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
-    </Routes>
+    <AuthInitializer>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+      </Routes>
+    </AuthInitializer>
   )
 }
 
