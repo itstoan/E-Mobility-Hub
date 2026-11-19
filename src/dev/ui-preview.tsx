@@ -11,6 +11,11 @@ import { DateTimeInput } from '../components/ui/DateTimeInput';
 import { Textarea } from '../components/ui/Textarea';
 import { Dialog } from '../components/ui/Dialog';
 import { FormField } from '../components/ui/FormField';
+import { Card } from '../components/ui/Card';
+import { StatusBadge } from '../components/ui/StatusBadge';
+import { MetricCard } from '../components/ui/MetricCard';
+import { Table } from '../components/ui/Table';
+import type { TableColumn } from '../components/ui/Table';
 
 const HUB_OPTIONS = [
   { value: 'hub-a', label: 'Campus Mobility Hub A' },
@@ -56,6 +61,17 @@ export function UIPreview() {
   const [vehicleName, setVehicleName] = useState('Personal E-Bike');
   const [hub, setHub] = useState('hub-a');
   const [notes, setNotes] = useState('Vehicle inspected. No issue found.');
+  const previewHubs = [
+  { id: 'hub-001', name: 'Campus Hub A', location: 'District 1', connectionStatus: 'online', capacity: 24 },
+  { id: 'hub-002', name: 'Campus Hub B', location: 'District 3', connectionStatus: 'disconnected', capacity: 18 },
+] as const;
+
+const hubColumns: TableColumn<(typeof previewHubs)[number]>[] = [
+  { key: 'name', header: 'Hub Name' },
+  { key: 'location', header: 'Location' },
+  { key: 'connectionStatus', header: 'Connection Status', render: (hub) => <StatusBadge variant={hub.connectionStatus === 'online' ? 'success' : 'danger'}>{hub.connectionStatus}</StatusBadge> },
+  { key: 'capacity', header: 'Vehicle Capacity' },
+];
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 font-sans text-slate-900 sm:px-8">
@@ -258,6 +274,92 @@ export function UIPreview() {
               reservation, charging request, or incident is updated.
             </p>
           </Dialog>
+        </PreviewSection>
+                <PreviewSection
+          title="09. Card"
+          description="Kiểm tra nền, đường viền, bo góc và padding của Card."
+        >
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Card>
+              <h3 className="font-semibold text-slate-900">
+                Mobility Hub A
+              </h3>
+              <p className="mt-2 text-sm text-slate-500">
+                District 1
+              </p>
+            </Card>
+
+            <Card className="border-teal-200">
+              <h3 className="font-semibold text-slate-900">
+                Charging Overview
+              </h3>
+              <p className="mt-2 text-sm text-slate-500">
+                Card with custom className.
+              </p>
+            </Card>
+          </div>
+        </PreviewSection>
+
+        <PreviewSection
+          title="10. StatusBadge"
+          description="Kiểm tra năm variants và khả năng hiển thị nội dung trạng thái."
+        >
+          <div className="flex flex-wrap items-center gap-3">
+            <StatusBadge variant="success">Online</StatusBadge>
+            <StatusBadge variant="warning">Pending</StatusBadge>
+            <StatusBadge variant="danger">Disconnected</StatusBadge>
+            <StatusBadge variant="info">Scheduled</StatusBadge>
+            <StatusBadge variant="neutral">Unknown</StatusBadge>
+          </div>
+        </PreviewSection>
+
+        <PreviewSection
+          title="11. MetricCard"
+          description="Kiểm tra title, value và description."
+        >
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <MetricCard
+              title="Total Hubs"
+              value={24}
+              description="Across the network"
+            />
+
+            <MetricCard
+              title="Connected Hubs"
+              value="20 / 24"
+              description="Current connection status"
+            />
+
+            <MetricCard
+              title="Network Availability"
+              value="83.3%"
+              description="Illustrative preview value"
+            />
+          </div>
+        </PreviewSection>
+
+        <PreviewSection
+          title="12. Table"
+          description="Kiểm tra header, dữ liệu, custom cell rendering, empty state và cuộn ngang."
+        >
+          <div className="space-y-5">
+            <PreviewItem title="Table with data">
+              <Table
+                columns={hubColumns}
+                data={previewHubs}
+                getRowKey={(hub) => hub.id}
+              />
+            </PreviewItem>
+
+            <PreviewItem title="Empty state">
+              <Table
+                columns={hubColumns}
+                data={[]}
+                getRowKey={(hub) => hub.id}
+                emptyMessage="No mobility hubs found."
+              />
+            </PreviewItem>
+          </div>
         </PreviewSection>
 
         <footer className="border-t border-slate-200 pt-4 text-xs text-slate-500">
