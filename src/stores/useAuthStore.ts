@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { User } from '../types/domain'
+import { authenticateMockUser } from '../data/mock/mockAuth'
+
 export type AuthStatus = 'initializing' | 'authenticated' | 'unauthenticated' | 'error'
 
 interface AuthState {
@@ -37,8 +39,12 @@ export const useAuthStore = create<AuthState>()(
                             : 'unauthenticated',
                     })
                 },
-                login: async (_email, _password) => {
-                    // Sẽ tích hợp Mock User Data sau khi Member B hoàn thành.
+                login: async (email, password) => {
+                    const user = authenticateMockUser(email, password)
+                    if (!user) {
+                        throw new Error('Invalid email or password.')
+                    }
+                    setCurrentUser(user)
                 },
                 logout: () => setCurrentUser(null),
                 setAuthError: () => {
