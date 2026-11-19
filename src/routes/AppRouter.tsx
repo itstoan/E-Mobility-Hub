@@ -1,10 +1,10 @@
 import { Navigate, Outlet, Route, Routes } from 'react-router';
 import { useAuthStore } from '../stores/useAuthStore';
+import type { UserRole } from '../types/domain';
 import { ROUTES, getDefaultHomeByRole } from './paths';
 import { ProtectedRoute, PublicOnlyRoute } from './ProtectedRoute';
-import type { UserRole } from './types';
 
-interface RouteStubProps { //temp
+interface RouteStubProps {
     useCase: string;
     title: string;
     featurePath: string;
@@ -24,7 +24,7 @@ function RouteStub({ useCase, title, featurePath }: RouteStubProps) {
     );
 }
 
-//temp shell layout
+// Temp shell layout for Phase 2; will be replaced by <MainLayout /> in Phase 3
 function TempLayoutShell() {
     return (
         <div className="min-h-screen bg-slate-50 text-slate-900">
@@ -36,11 +36,8 @@ function TempLayoutShell() {
 function RootRedirect() {
     const currentUser = useAuthStore((state) => state.currentUser);
     const authStatus = useAuthStore((state) => state.authStatus);
-
-    const role =
-        authStatus === 'authenticated' && currentUser && typeof currentUser === 'object'
-            ? ((currentUser as { role?: UserRole }).role ?? null)
-            : null;
+    const role: UserRole | null =
+        authStatus === 'authenticated' ? (currentUser?.role ?? null) : null;
 
     return <Navigate to={getDefaultHomeByRole(role)} replace />;
 }
@@ -48,6 +45,7 @@ function RootRedirect() {
 export function AppRouter() {
     return (
         <Routes>
+            {/* Default redirect based on auth state and role */}
             <Route path={ROUTES.ROOT} element={<RootRedirect />} />
 
             {/* Public Route: UC00 */}
@@ -155,7 +153,7 @@ export function AppRouter() {
             </Route>
 
             {/* System Operator Protected Routes: UC07 - UC11 */}
-            <Route element={<ProtectedRoute allowedRoles={['operator']} />}>
+            <Route element={<ProtectedRoute allowedRoles={['system_operator']} />}>
                 <Route element={<TempLayoutShell />}>
                     <Route
                         path={ROUTES.OPERATOR.ROOT}
@@ -244,6 +242,7 @@ export function AppRouter() {
                 </Route>
             </Route>
 
+            {/* Fallback 404 -> return to default page by role */}
             <Route path="*" element={<RootRedirect />} />
         </Routes>
     );

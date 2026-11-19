@@ -9,7 +9,7 @@ Thống nhất kiến trúc định tuyến (Routing), cơ chế kiểm soát tr
 
 ### 1.2. Phạm vi và Truy vết yêu cầu
 
-- **Phạm vi Use Case:** Bao phủ toàn bộ 12 Use Case từ `UC00` đến `UC11`, phân tách theo hai vai trò người dùng chính là `student` và `operator`.
+- **Phạm vi Use Case:** Bao phủ toàn bộ 12 Use Case từ `UC00` đến `UC11`, phân tách theo hai vai trò người dùng chính là `student` và `system_operator`.
 - **Yêu cầu chức năng & phi chức năng:** Đáp ứng `FR-AUTH01` (xác thực và điều hướng theo vai trò), `NFR-S01` (kiểm soát truy cập theo vai trò), `NFR-S02` (ngăn chặn Sinh viên truy cập trái phép chức năng của Đơn vị vận hành) và `NFR-M01` (tính mô-đun).
 - **Đồng bộ kiến trúc nhóm:** Tích hợp trực tiếp với Zustand Auth Store (`useAuthStore`) và `AuthInitializer` do Member C thiết kế, đồng thời chuẩn bị các tham số định danh động (`:id`) tương thích với Domain Types do Member B phụ trách.
 
@@ -22,7 +22,7 @@ Thống nhất kiến trúc định tuyến (Routing), cơ chế kiểm soát tr
 ```text
 src/
 ├── routes/
-│   ├── types.ts           # Định nghĩa UserRole ('student' | 'operator') và NavItemConfig
+│   ├── types.ts           # Định nghĩa UserRole ('student' | 'system_operator') và NavItemConfig
 │   ├── paths.ts           # Hằng số đường dẫn ROUTES.* & hàm getDefaultHomeByRole()
 │   ├── navigation.ts      # Cấu hình danh sách menu Sidebar chuẩn Figma cho Student & Operator
 │   ├── ProtectedRoute.tsx # Route Guard kết nối trực tiếp useAuthStore (NFR-S01, NFR-S02)

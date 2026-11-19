@@ -1,24 +1,19 @@
-export type UserRole = 'student' | 'operator';
+import type { UserRole } from '../types/domain';
 
-export interface AuthSession {
-    isAuthenticated: boolean;
-    userId: string | null;
-    fullName: string | null;
-    role: UserRole | null;
-}
+export type { UserRole };
 
 export interface NavItemConfig {
-    id: string;
-    label: string;
-    path: string;
-    useCases: string[];
-    iconName:
-    | 'hubs'
-    | 'parking'
-    | 'reservations'
-    | 'charging'
-    | 'monitoring'
-    | 'coordination'
-    | 'incidents'
-    | 'simulation';
+  id: string;
+  label: string;
+  path: string;
+  useCases: string[];
+  iconName:
+  | 'hubs'
+  | 'parking'
+  | 'reservations'
+  | 'charging'
+  | 'monitoring'
+  | 'coordination'
+  | 'incidents'
+  | 'simulation';
 }

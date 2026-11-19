@@ -1,5 +1,6 @@
+import type { UserRole } from '../types/domain';
 import { ROUTES } from './paths';
-import type { NavItemConfig, UserRole } from './types';
+import type { NavItemConfig } from './types';
 
 export const STUDENT_NAV_ITEMS: NavItemConfig[] = [
     {
@@ -71,7 +72,7 @@ export const OPERATOR_NAV_ITEMS: NavItemConfig[] = [
 ];
 
 export function getNavItemsByRole(role: UserRole | null): NavItemConfig[] {
-    if (role === 'operator') return OPERATOR_NAV_ITEMS;
+    if (role === 'system_operator') return OPERATOR_NAV_ITEMS;
     if (role === 'student') return STUDENT_NAV_ITEMS;
     return [];
 }

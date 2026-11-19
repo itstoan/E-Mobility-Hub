@@ -1,14 +1,8 @@
 import type { ReactNode } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router';
 import { useAuthStore } from '../stores/useAuthStore';
+import type { UserRole } from '../types/domain';
 import { ROUTES, getDefaultHomeByRole } from './paths';
-import type { UserRole } from './types';
-
-function extractUserRole(user: unknown): UserRole | null {
-    if (!user || typeof user !== 'object') return null;
-    const role = (user as { role?: unknown }).role;
-    return role === 'student' || role === 'operator' ? role : null;
-}
 
 interface ProtectedRouteProps {
     allowedRoles?: UserRole[];
@@ -19,7 +13,7 @@ export function ProtectedRoute({ allowedRoles, children }: ProtectedRouteProps) 
     const location = useLocation();
     const currentUser = useAuthStore((state) => state.currentUser);
     const authStatus = useAuthStore((state) => state.authStatus);
-    const role = extractUserRole(currentUser);
+    const role = currentUser?.role ?? null;
 
     if (authStatus === 'initializing') {
         return null;
@@ -45,7 +39,7 @@ export function ProtectedRoute({ allowedRoles, children }: ProtectedRouteProps) 
 export function PublicOnlyRoute({ children }: { children?: ReactNode }) {
     const currentUser = useAuthStore((state) => state.currentUser);
     const authStatus = useAuthStore((state) => state.authStatus);
-    const role = extractUserRole(currentUser);
+    const role = currentUser?.role ?? null;
 
     if (authStatus === 'authenticated' && currentUser && role) {
         return <Navigate to={getDefaultHomeByRole(role)} replace />;

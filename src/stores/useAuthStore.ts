@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-
+import type { User } from '../types/domain'
 export type AuthStatus = 'initializing' | 'authenticated' | 'unauthenticated' | 'error'
 
 interface AuthState {
@@ -61,12 +61,3 @@ export const useAuthStore = create<AuthState>()(
         },
     ),
 )
-
-// placeholder để chạy được, nhớ xóa
-export interface User {
-    id: string;
-    name?: string;
-    email?: string;
-    role: 'student' | 'operator';
-    [key: string]: unknown;
-}
