@@ -18,3 +18,5 @@ export { Card } from './Card';
 export type { CardProps } from './Card';
 export { MetricCard } from './MetricCard';
 export type { MetricCardProps } from './MetricCard';
+export { Table } from './Table';
+export type { TableColumn, TableProps } from './Table';
