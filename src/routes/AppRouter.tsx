@@ -1,4 +1,5 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
+import { MainLayout } from '../layouts';
 import { useAuthStore } from '../stores/useAuthStore';
 import type { UserRole } from '../types/domain';
 import { ROUTES, getDefaultHomeByRole } from './paths';
@@ -12,23 +13,16 @@ interface RouteStubProps {
 
 function RouteStub({ useCase, title, featurePath }: RouteStubProps) {
     return (
-        <div className="p-6">
+        <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6">
             <span className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800">
                 {useCase}
             </span>
-            <h1 className="mt-2 text-2xl font-semibold text-slate-900">{title}</h1>
+            <h1 className="mt-2 font-heading text-3xl font-semibold text-slate-900">
+                {title}
+            </h1>
             <p className="mt-1 text-sm text-slate-500">
                 Feature target: <code>{featurePath}</code>
             </p>
-        </div>
-    );
-}
-
-// Temp shell layout for Phase 2; will be replaced by <MainLayout /> in Phase 3
-function TempLayoutShell() {
-    return (
-        <div className="min-h-screen bg-slate-50 text-slate-900">
-            <Outlet />
         </div>
     );
 }
@@ -64,7 +58,7 @@ export function AppRouter() {
 
             {/* Student Protected Routes: UC01 - UC06 */}
             <Route element={<ProtectedRoute allowedRoles={['student']} />}>
-                <Route element={<TempLayoutShell />}>
+                <Route element={<MainLayout />}>
                     <Route
                         path={ROUTES.STUDENT.ROOT}
                         element={<Navigate to={ROUTES.STUDENT.HUBS} replace />}
@@ -154,7 +148,7 @@ export function AppRouter() {
 
             {/* System Operator Protected Routes: UC07 - UC11 */}
             <Route element={<ProtectedRoute allowedRoles={['system_operator']} />}>
-                <Route element={<TempLayoutShell />}>
+                <Route element={<MainLayout />}>
                     <Route
                         path={ROUTES.OPERATOR.ROOT}
                         element={<Navigate to={ROUTES.OPERATOR.MONITORING} replace />}
