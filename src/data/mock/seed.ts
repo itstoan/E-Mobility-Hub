@@ -60,6 +60,80 @@ export function createMockSeed(now: Date = new Date()): MockDatabase {
         requestedStartAt: at(180), requestedEndAt: at(240), batteryPercent: 17,
         neededByAt: at(270), status: "needs_rescheduling" },
     ],
+    // UC07: Aggregate monitoring data for the network overview.
+    // Parking figures are illustrative snapshots, not UC05 ParkingSpace records.
+    monitoring: {
+      currentSnapshots: [
+        {
+          hubId: "HUB-A",
+          vehicle: {
+            available: 3,
+            inUse: 5,
+            unavailable: 2,
+            total: 10,
+          },
+          parking: {
+            available: 2,
+            occupied: 18,
+            unavailable: 0,
+            total: 20,
+          },
+          charging: {
+            available: 2,
+            occupied: 0,
+            unavailable: 2,
+            total: 4,
+          },
+          risks: ["Parking-capacity risk"],
+        },
+        {
+          hubId: "HUB-B",
+          vehicle: {
+            available: 0,
+            inUse: 6,
+            unavailable: 2,
+            total: 8,
+          },
+          parking: {
+            available: 10,
+            occupied: 10,
+            unavailable: 0,
+            total: 20,
+          },
+          charging: {
+            available: 0,
+            occupied: 3,
+            unavailable: 1,
+            total: 4,
+          },
+          risks: ["Vehicle shortage"],
+        },
+      ],
+      lastKnownSnapshots: [
+        {
+          hubId: "HUB-C",
+          vehicle: {
+            available: 4,
+            inUse: 3,
+            unavailable: 1,
+            total: 8,
+          },
+          parking: {
+            available: 8,
+            occupied: 8,
+            unavailable: 0,
+            total: 16,
+          },
+          charging: {
+            available: 1,
+            occupied: 0,
+            unavailable: 1,
+            total: 2,
+          },
+          risks: [],
+        },
+      ],
+    },
     // UC08: chưa phân bổ CP-B01 hay đổi trạng thái CR-01's
     chargingScheduleProposals: [
       { id: "CSP-01", requestId: "CR-01", portId: "CP-B01",
