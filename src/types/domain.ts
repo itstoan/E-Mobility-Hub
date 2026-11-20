@@ -176,4 +176,30 @@ export interface MockDatabase {
   vehicleTransferProposals: VehicleTransferProposal[];
   incidents: Incident[];
   incidentImpacts: IncidentImpact[];
+
+  //UC07
+  monitoring: MonitoringData;
+}
+
+// UC07: Aggregate monitoring snapshots.
+// These are illustrative summary data, not individual resource records.
+export interface MonitoringResourceCounts {
+  available: number;
+  unavailable: number;
+  total: number;
+  inUse?: number;
+  occupied?: number;
+}
+
+export interface MonitoringHubSnapshot {
+  hubId: Id;
+  vehicle: MonitoringResourceCounts;
+  parking: MonitoringResourceCounts;
+  charging: MonitoringResourceCounts;
+  risks: ("Parking-capacity risk" | "Vehicle shortage")[];
+}
+
+export interface MonitoringData {
+  currentSnapshots: MonitoringHubSnapshot[];
+  lastKnownSnapshots: MonitoringHubSnapshot[];
 }

@@ -16,6 +16,10 @@ import type { UserRole } from '../types/domain';
 import { ROUTES, getDefaultHomeByRole } from './paths';
 import { ProtectedRoute, PublicOnlyRoute } from './ProtectedRoute';
 
+//UC07 import
+import { MonitorNetworkPage } from '../features/monitoring/pages/MonitorNetworkPage';
+import { HubResourcesDetailPage } from '../features/monitoring/pages/HubResourcesDetailPage';
+
 interface RouteStubProps {
     useCase: string;
     title: string;
@@ -118,23 +122,11 @@ export function AppRouter() {
                     />
                     <Route
                         path={ROUTES.OPERATOR.MONITORING}
-                        element={
-                            <RouteStub
-                                useCase="UC07"
-                                title="Monitor Mobility Hub Network"
-                                featurePath="src/features/monitoring/pages/MonitorNetworkPage.tsx"
-                            />
-                        }
+                        element={<MonitorNetworkPage />}
                     />
                     <Route
                         path={ROUTES.OPERATOR.HUB_DETAILS()}
-                        element={
-                            <RouteStub
-                                useCase="UC07"
-                                title="Hub Resource Details & Disconnection State"
-                                featurePath="src/features/monitoring/pages/HubResourceDetailsPage.tsx"
-                            />
-                        }
+                        element={<HubResourcesDetailPage />}
                     />
                     <Route
                         path={ROUTES.OPERATOR.CHARGING}
