@@ -1,3 +1,4 @@
+
 import { NavLink, useNavigate } from 'react-router';
 import { getNavItemsByRole } from '../routes/navigation';
 import { ROUTES, getDefaultHomeByRole } from '../routes/paths';
@@ -38,6 +39,7 @@ function getUserBadgeInfo(user: User | null) {
 
 export function Sidebar() {
     const navigate = useNavigate();
+
     const sidebarOpen = useAppStore((state) => state.sidebarOpen);
     const toggleSidebar = useAppStore((state) => state.toggleSidebar);
 
@@ -55,7 +57,6 @@ export function Sidebar() {
 
     return (
         <>
-            {/* Backdrop cho thiết bị di động khi mở Sidebar */}
             {sidebarOpen && (
                 <button
                     type="button"
@@ -68,58 +69,53 @@ export function Sidebar() {
             <aside
                 aria-label="Primary Sidebar Navigation"
                 className={[
-                    'fixed inset-y-0 left-0 z-40 flex flex-col bg-[#071915] font-sans text-white transition-all duration-200 ease-in-out md:sticky md:top-0 md:h-screen md:shrink-0',
+                    'fixed inset-y-0 left-0 z-40 flex flex-col justify-between bg-sidebar-bg px-0 py-6 font-sans text-white transition-all duration-200 ease-in-out md:sticky md:top-0 md:h-screen md:shrink-0',
                     sidebarOpen
-                        ? 'w-72 translate-x-0'
-                        : '-translate-x-full md:w-20 md:translate-x-0',
+                        ? 'w-[240px] translate-x-0'
+                        : '-translate-x-full md:w-[72px] md:translate-x-0',
                 ].join(' ')}
             >
-                {/* Nút tròn thu gọn / mở rộng nằm đè mép phải Sidebar */}
+                {/* Collapse / Expand Button */}
                 <button
                     type="button"
                     onClick={toggleSidebar}
                     aria-label={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
                     title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-                    className="absolute top-1/2 -right-3.5 z-50 hidden h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[#071915] text-white shadow-md transition-colors hover:bg-[#10382F] focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 md:flex"
+                    className="absolute top-1/2 -right-[18px] z-50 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-sidebar-bg text-brand-accent shadow-md transition-colors hover:bg-sidebar-active focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent md:flex"
                 >
                     {sidebarOpen ? (
-                        <ChevronLeftIcon className="h-4 w-4" />
+                        <ChevronLeftIcon className="h-6 w-6" />
                     ) : (
-                        <ChevronRightIcon className="h-4 w-4" />
+                        <ChevronRightIcon className="h-6 w-6" />
                     )}
                 </button>
 
-                {/* Brand Logo Header - Font Jura */}
+                {/* Brand Logo */}
                 <div
                     className={[
-                        'flex h-24 shrink-0 items-center',
-                        sidebarOpen ? 'px-6' : 'justify-center px-2',
+                        'flex h-[50px] w-full shrink-0 items-center',
+                        sidebarOpen ? 'justify-start px-[19px]' : 'justify-center',
                     ].join(' ')}
                 >
                     <NavLink
                         to={getDefaultHomeByRole(role)}
-                        className="flex items-center gap-3.5 focus:outline-none"
+                        className="flex items-center gap-[7px] focus:outline-none"
                         title="Smart E-Mobility Hub"
                     >
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-[#2AD08C]">
-                            <BrandBoltIcon className="h-7 w-7" />
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center text-brand-accent">
+                            <BrandBoltIcon className="h-8 w-8" />
                         </span>
 
                         {sidebarOpen && (
-                            <div className="font-brand leading-snug tracking-wider">
-                                <span className="block text-[16px] font-semibold uppercase text-white">
-                                    SMART E-MOBILITY
-                                </span>
-                                <span className="block text-[16px] font-semibold uppercase text-white">
-                                    HUB
-                                </span>
-                            </div>
+                            <span className="flex h-[21px] w-[162px] items-center font-brand text-[18px] font-semibold uppercase leading-none tracking-wider text-brand-accent-soft">
+                                SMART E-MOBILITY HUB
+                            </span>
                         )}
                     </NavLink>
                 </div>
 
-                {/* Navigation Links - Font Inter & Căn giữa chiều dọc Sidebar */}
-                <nav className="flex flex-1 flex-col justify-center space-y-2 overflow-y-auto px-3.5 py-4 font-sans">
+                {/* Navigation */}
+                <nav className="flex h-[316px] w-full shrink-0 flex-col justify-center overflow-y-auto py-0 font-sans">
                     {navItems.map((item) => (
                         <NavLink
                             key={item.id}
@@ -127,10 +123,10 @@ export function Sidebar() {
                             title={!sidebarOpen ? item.label : undefined}
                             className={({ isActive }) =>
                                 [
-                                    'group flex items-center rounded-xl py-3.5 text-base font-medium transition-colors',
+                                    'group flex h-[50px] w-full shrink-0 items-center transition-colors',
                                     sidebarOpen ? 'gap-4 px-4' : 'justify-center px-2',
                                     isActive
-                                        ? 'bg-[#10382F] text-white'
+                                        ? 'bg-sidebar-active text-white'
                                         : 'text-slate-300 hover:bg-white/5 hover:text-white',
                                 ].join(' ')
                             }
@@ -140,13 +136,18 @@ export function Sidebar() {
                                     <NavItemIcon
                                         name={item.iconName}
                                         className={[
-                                            'h-6 w-6 shrink-0 transition-colors',
+                                            'h-7 w-7 shrink-0 transition-colors',
                                             isActive
-                                                ? 'text-[#2AD08C]'
+                                                ? 'text-brand-accent'
                                                 : 'text-slate-300 group-hover:text-white',
                                         ].join(' ')}
                                     />
-                                    {sidebarOpen && <span className="truncate">{item.label}</span>}
+
+                                    {sidebarOpen && (
+                                        <span className="truncate font-sans text-base font-medium">
+                                            {item.label}
+                                        </span>
+                                    )}
                                 </>
                             )}
                         </NavLink>
@@ -158,23 +159,25 @@ export function Sidebar() {
                     <div
                         className={[
                             'flex items-center rounded-xl py-2',
-                            sidebarOpen ? 'justify-between gap-2.5 px-2' : 'flex-col gap-2.5',
+                            sidebarOpen
+                                ? 'justify-between gap-2.5 px-2'
+                                : 'flex-col gap-2.5',
                         ].join(' ')}
                     >
                         <div
                             className="flex min-w-0 items-center gap-3"
                             title={userBadge.label}
                         >
-                            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#24332E] text-sm font-semibold text-slate-100 ring-1 ring-white/15">
+                            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#24332E] text-sm font-semibold text-slate-100 ring-1 ring-white/15">
                                 {userBadge.initials}
                             </span>
 
                             {sidebarOpen && (
                                 <div className="min-w-0">
-                                    <p className="truncate text-[15px] font-medium text-white">
+                                    <p className="truncate font-sans text-base font-medium text-white">
                                         {userBadge.label}
                                     </p>
-                                    <p className="truncate text-xs text-slate-400">
+                                    <p className="truncate font-sans text-base text-slate-400">
                                         {role === 'system_operator'
                                             ? 'System Operator'
                                             : 'Student Account'}
@@ -188,7 +191,7 @@ export function Sidebar() {
                             onClick={handleLogout}
                             title="Sign out"
                             aria-label="Sign out"
-                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-300 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-slate-300 transition-colors hover:bg-white/10 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
                         >
                             <LogOutIcon className="h-5 w-5" />
                         </button>
