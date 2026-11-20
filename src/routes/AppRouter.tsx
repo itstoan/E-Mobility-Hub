@@ -20,6 +20,8 @@ import { ProtectedRoute, PublicOnlyRoute } from './ProtectedRoute';
 import { MonitorNetworkPage } from '../features/monitoring/pages/MonitorNetworkPage';
 import { HubResourcesDetailPage } from '../features/monitoring/pages/HubResourcesDetailPage';
 import { ManageChargingPage } from '../features/charging/pages/ManageChargingPage';
+import { CoordinateVehiclesPage } from '../features/vehicle-coordination/pages/CoordinateVehiclesPage';
+import { ReviewCoordinationProposalPage } from '../features/vehicle-coordination/pages/ReviewCoordinationProposalPage';
 
 interface RouteStubProps {
     useCase: string;
@@ -136,23 +138,11 @@ export function AppRouter() {
                     />
                     <Route
                         path={ROUTES.OPERATOR.COORDINATION}
-                        element={
-                            <RouteStub
-                                useCase="UC09"
-                                title="Coordinate Vehicles Between Hubs"
-                                featurePath="src/features/vehicle-coordination/pages/CoordinateVehiclesPage.tsx"
-                            />
-                        }
+                        element={<CoordinateVehiclesPage />}
                     />
                     <Route
                         path={ROUTES.OPERATOR.COORDINATION_PROPOSAL()}
-                        element={
-                            <RouteStub
-                                useCase="UC09"
-                                title="Review Coordination Proposal"
-                                featurePath="src/features/vehicle-coordination/pages/ReviewProposalPage.tsx"
-                            />
-                        }
+                        element={<ReviewCoordinationProposalPage />}
                     />
                     <Route
                         path={ROUTES.OPERATOR.INCIDENTS}
