@@ -23,6 +23,13 @@ import { ManageChargingPage } from '../features/charging/pages/ManageChargingPag
 import { CoordinateVehiclesPage } from '../features/vehicle-coordination/pages/CoordinateVehiclesPage';
 import { ReviewCoordinationProposalPage } from '../features/vehicle-coordination/pages/ReviewCoordinationProposalPage';
 
+//UC04, UC06, UC10 imports 
+import { ActiveTripReturnPage } from '../features/reservations/pages/ActiveTripReturnPage';
+import { StudentChargingRequestPage } from '../features/charging/pages/StudentChargingRequestPage';
+import { ManageIncidentsPage } from '../features/incidents/pages/ManageIncidentsPage';
+import { IncidentDetailsPage } from '../features/incidents/pages/IncidentDetailsPage';
+
+
 interface RouteStubProps {
     useCase: string;
     title: string;
@@ -91,13 +98,7 @@ export function AppRouter() {
                     />
                     <Route
                         path={ROUTES.STUDENT.ACTIVE_TRIP()}
-                        element={
-                            <RouteStub
-                                useCase="UC04"
-                                title="Return Shared Electric Vehicle"
-                                featurePath="src/features/reservations/pages/ActiveTripReturnPage.tsx"
-                            />
-                        }
+                        element={<ActiveTripReturnPage />}
                     />
                     <Route
                         path={ROUTES.STUDENT.PARKING}
@@ -105,13 +106,7 @@ export function AppRouter() {
                     />
                     <Route
                         path={ROUTES.STUDENT.CHARGING}
-                        element={
-                            <RouteStub
-                                useCase="UC06"
-                                title="Submit a Charging Request"
-                                featurePath="src/features/charging/pages/StudentChargingRequestPage.tsx"
-                            />
-                        }
+                        element={<StudentChargingRequestPage />}
                     />
                 </Route>
             </Route>
@@ -146,23 +141,11 @@ export function AppRouter() {
                     />
                     <Route
                         path={ROUTES.OPERATOR.INCIDENTS}
-                        element={
-                            <RouteStub
-                                useCase="UC10"
-                                title="Manage Operational Incidents"
-                                featurePath="src/features/incidents/pages/ManageIncidentsPage.tsx"
-                            />
-                        }
+                        element={<ManageIncidentsPage />}
                     />
                     <Route
                         path={ROUTES.OPERATOR.INCIDENT_DETAILS()}
-                        element={
-                            <RouteStub
-                                useCase="UC10"
-                                title="Incident Details & Resolution"
-                                featurePath="src/features/incidents/pages/IncidentDetailsPage.tsx"
-                            />
-                        }
+                        element={<IncidentDetailsPage />}
                     />
                     <Route
                         path={ROUTES.OPERATOR.SIMULATION}
