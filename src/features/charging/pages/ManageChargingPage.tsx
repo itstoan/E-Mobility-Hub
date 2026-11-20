@@ -186,13 +186,18 @@ function PageHeading({
   badge?: ReactNode;
 }) {
   return (
-    <div>
-      <p className="text-xs font-medium text-text-muted">{breadcrumb}</p>
-      <div className="mt-1 flex flex-wrap items-center gap-3">
+    <div className="space-y-1.5">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
+        <p className="text-xs font-medium text-text-muted">{breadcrumb}</p>
+        <span className="text-xs font-medium text-brand-primary">
+          System Operator · Management
+        </span>
+      </div>
+      <div className="flex flex-wrap items-center gap-3">
         <h1 className="text-2xl font-semibold text-text-primary">{title}</h1>
         {badge}
       </div>
-      <p className="mt-1.5 text-sm text-text-secondary">{description}</p>
+      <p className="text-sm text-text-secondary">{description}</p>
     </div>
   );
 }
@@ -728,35 +733,38 @@ export function ManageChargingPage() {
               </p>
             </div>
 
-            <div className="overflow-x-auto rounded-md border border-border-default">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-surface-subtle text-text-secondary">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">Proposal version</th>
-                    <th className="px-4 py-3 font-medium">Port</th>
-                    <th className="px-4 py-3 font-medium">Illustrative allocation window</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-default">
-                  <tr>
-                    <td className="px-4 py-3">Original proposal</td>
-                    <td className="px-4 py-3">{selectedProposal ? getPortName(database, selectedProposal.portId) : 'No proposal'}</td>
-                    <td className="px-4 py-3">{selectedProposal ? formatWindow(selectedProposal.startAt, selectedProposal.endAt) : 'Unallocated'}</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3">Chosen adjustment</td>
-                    <td className="px-4 py-3">{selectedDraftPort?.code ?? 'Select a port'}</td>
-                    <td className="px-4 py-3">{draftStart}–{draftEnd}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="overflow-hidden rounded-md border border-border-default">
+              <Table
+                columns={[
+                  { key: 'version', header: 'Proposal version' },
+                  { key: 'port', header: 'Port' },
+                  { key: 'window', header: 'Illustrative allocation window' },
+                ]}
+                data={[
+                  {
+                    version: 'Original proposal',
+                    port: selectedProposal
+                      ? getPortName(database, selectedProposal.portId)
+                      : 'No proposal',
+                    window: selectedProposal
+                      ? formatWindow(selectedProposal.startAt, selectedProposal.endAt)
+                      : 'Unallocated',
+                  },
+                  {
+                    version: 'Chosen adjustment',
+                    port: selectedDraftPort?.code ?? 'Select a port',
+                    window: `${draftStart}–${draftEnd}`,
+                  },
+                ]}
+                getRowKey={(row) => row.version}
+              />
             </div>
           </Card>
         )}
 
         <Card className="space-y-4">
           <h2 className="font-semibold text-text-primary">Select an alternative proposal</h2>
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
             <FormField id="uc08-proposed-port" label="Proposed port" required>
               <Select
                 id="uc08-proposed-port"
@@ -778,7 +786,7 @@ export function ManageChargingPage() {
                 onChange={(event: ChangeEvent<HTMLInputElement>) => setDraftDate(event.target.value)}
               />
             </FormField>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 md:col-span-2 xl:col-span-1">
               <FormField id="uc08-proposed-start" label="Start time" required>
                 <DateTimeInput
                   id="uc08-proposed-start"
