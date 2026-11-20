@@ -5,6 +5,16 @@ import { mockUsers } from "./users";
 export function createMockSeed(now: Date = new Date()): MockDatabase {
   const at = (deltaMinutes: number): string =>
     new Date(now.getTime() + deltaMinutes * 60_000).toISOString();
+  const nextDayAt = (hour: number, minute = 0): string =>
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1,
+      hour,
+      minute,
+    ).toISOString();
+  const activeSessionStartAt = at(-30);
+  const activeSessionEndAt = at(180);
 
   return {
     users: mockUsers.map((user) => ({ ...user })),
@@ -31,8 +41,15 @@ export function createMockSeed(now: Date = new Date()): MockDatabase {
       { id: "PS-C01", hubId: "HUB-C", code: "P-01", occupancy: "empty" },
     ],
     chargingPorts: [
+      // UC08: physical state is independent from a proposed or allocated slot.
       { id: "CP-A01", hubId: "HUB-A", code: "CP-01", physicalState: "idle" },
-      { id: "CP-B01", hubId: "HUB-B", code: "CP-01", physicalState: "idle" },
+      { id: "CP-A02", hubId: "HUB-A", code: "CP-02", physicalState: "idle" },
+      { id: "CP-A03", hubId: "HUB-A", code: "CP-03", physicalState: "out_of_service" },
+      { id: "CP-A04", hubId: "HUB-A", code: "CP-04", physicalState: "out_of_service" },
+      { id: "CP-B01", hubId: "HUB-B", code: "B-01", physicalState: "charging" },
+      { id: "CP-B02", hubId: "HUB-B", code: "B-02", physicalState: "charging" },
+      { id: "CP-B03", hubId: "HUB-B", code: "B-03", physicalState: "charging" },
+      { id: "CP-B04", hubId: "HUB-B", code: "B-04", physicalState: "out_of_service" },
       { id: "CP-C01", hubId: "HUB-C", code: "CP-01", physicalState: "out_of_service" },
     ],
     vehicleReservations: [
@@ -53,12 +70,41 @@ export function createMockSeed(now: Date = new Date()): MockDatabase {
         startAt: at(120), endAt: at(180), status: "confirmed" },
     ],
     chargingRequests: [
+      // Existing shared records retained for UC06/UC10 compatibility.
       { id: "CR-01", userId: "ST-01", hubId: "HUB-B", personalVehicleLabel: "Personal EV A",
         requestedStartAt: at(60), requestedEndAt: at(120), batteryPercent: 28,
         neededByAt: at(150), status: "pending_scheduling" },
       { id: "CR-02", userId: "ST-02", hubId: "HUB-C", personalVehicleLabel: "Personal EV B",
         requestedStartAt: at(180), requestedEndAt: at(240), batteryPercent: 17,
         neededByAt: at(270), status: "needs_rescheduling" },
+
+      // UC08 operator sample: three pending requests matching the management mockup.
+      { id: "CR-2026-001", userId: "ST-01", hubId: "HUB-A",
+        personalVehicleLabel: "Personal electric vehicle",
+        requestedStartAt: nextDayAt(9), requestedEndAt: nextDayAt(11),
+        batteryPercent: 42, neededByAt: nextDayAt(13), status: "pending_scheduling" },
+      { id: "CR-2026-002", userId: "ST-02", hubId: "HUB-A",
+        personalVehicleLabel: "Personal electric vehicle",
+        requestedStartAt: nextDayAt(9), requestedEndAt: nextDayAt(11),
+        batteryPercent: 16, neededByAt: nextDayAt(10), status: "pending_scheduling" },
+      { id: "CR-2026-003", userId: "ST-01", hubId: "HUB-B",
+        personalVehicleLabel: "Personal electric vehicle",
+        requestedStartAt: nextDayAt(9), requestedEndAt: nextDayAt(11),
+        batteryPercent: 46, neededByAt: nextDayAt(9, 30), status: "pending_scheduling" },
+
+      // Requests belonging to the active sessions shown separately in UC08.
+      { id: "CR-SESSION-101", userId: "ST-01", hubId: "HUB-B",
+        personalVehicleLabel: "Active charging vehicle",
+        requestedStartAt: activeSessionStartAt, requestedEndAt: activeSessionEndAt,
+        status: "charging" },
+      { id: "CR-SESSION-102", userId: "ST-02", hubId: "HUB-B",
+        personalVehicleLabel: "Active charging vehicle",
+        requestedStartAt: activeSessionStartAt, requestedEndAt: activeSessionEndAt,
+        status: "charging" },
+      { id: "CR-SESSION-103", userId: "ST-01", hubId: "HUB-B",
+        personalVehicleLabel: "Active charging vehicle",
+        requestedStartAt: activeSessionStartAt, requestedEndAt: activeSessionEndAt,
+        status: "charging" },
     ],
     // UC07: Aggregate monitoring data for the network overview.
     // Parking figures are illustrative snapshots, not UC05 ParkingSpace records.
@@ -134,14 +180,26 @@ export function createMockSeed(now: Date = new Date()): MockDatabase {
         },
       ],
     },
-    // UC08: chưa phân bổ CP-B01 hay đổi trạng thái CR-01's
+    // UC08 proposals are not committed allocations until the operator confirms them.
     chargingScheduleProposals: [
       { id: "CSP-01", requestId: "CR-01", portId: "CP-B01",
-        startAt: at(65), endAt: at(115), status: "proposed" },
+        startAt: at(65), endAt: at(115), status: "outdated" },
+      { id: "CSP-2026-001", requestId: "CR-2026-001", portId: "CP-A01",
+        startAt: nextDayAt(9), endAt: nextDayAt(11), status: "proposed" },
+      { id: "CSP-2026-002", requestId: "CR-2026-002", portId: "CP-A02",
+        startAt: nextDayAt(9), endAt: nextDayAt(11), status: "proposed" },
     ],
     chargingSchedules: [
+      // Historical disrupted allocation retained for the UC10 incident-impact flow.
       { id: "CS-01", requestId: "CR-02", portId: "CP-C01",
         startAt: at(180), endAt: at(240), status: "disrupted" },
+      // Three live sessions occupy Hub B ports; they remain separate from pending requests.
+      { id: "CS-101", requestId: "CR-SESSION-101", portId: "CP-B01",
+        startAt: activeSessionStartAt, endAt: activeSessionEndAt, status: "charging" },
+      { id: "CS-102", requestId: "CR-SESSION-102", portId: "CP-B02",
+        startAt: activeSessionStartAt, endAt: activeSessionEndAt, status: "charging" },
+      { id: "CS-103", requestId: "CR-SESSION-103", portId: "CP-B03",
+        startAt: activeSessionStartAt, endAt: activeSessionEndAt, status: "charging" },
     ],
     // UC09: Quyết định approved/rejected/proposed không chuyển xe giữa các hub
     vehicleTransferProposals: [
