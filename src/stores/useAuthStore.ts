@@ -1,33 +1,32 @@
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import type { User } from '../types/domain'
-import { authenticateMockUser } from '../data/mock/mockAuth'
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { authenticateMockUser } from '../data/mock/mockAuth';
+import type { User } from '../types/domain';
 
-export type AuthStatus = 'initializing' | 'authenticated' | 'unauthenticated' | 'error'
+export type AuthStatus =
+    | 'initializing'
+    | 'authenticated'
+    | 'unauthenticated'
+    | 'error';
 
 interface AuthState {
-    //State
-    currentUser: User | null
-    authStatus: AuthStatus
-
-    //Actions
-    initializeAuth: () => void
-    login: (email: string, password: string) => Promise<void>
-    logout: () => void
-    //setCurrentUser: (user: User | null) => void
-    setAuthError: () => void
+    currentUser: User | null;
+    authStatus: AuthStatus;
+    initializeAuth: () => void;
+    login: (email: string, password: string) => Promise<User>;
+    logout: () => void;
+    setAuthError: () => void;
 }
 
 export const useAuthStore = create<AuthState>()(
     persist(
         (set, get) => {
-            // Internal helper: không expose ra component
             const setCurrentUser = (user: User | null) => {
                 set({
                     currentUser: user,
                     authStatus: user ? 'authenticated' : 'unauthenticated',
-                })
-            }
+                });
+            };
 
             return {
                 currentUser: null,
@@ -37,20 +36,21 @@ export const useAuthStore = create<AuthState>()(
                         authStatus: get().currentUser
                             ? 'authenticated'
                             : 'unauthenticated',
-                    })
+                    });
                 },
                 login: async (email, password) => {
-                    const user = authenticateMockUser(email, password)
-                    if (!user) {
-                        throw new Error('Invalid email or password.')
+                    const authenticatedUser = authenticateMockUser(email, password);
+                    if (!authenticatedUser) {
+                        throw new Error('Sign-in failed. Check your credentials and try again.');
                     }
-                    setCurrentUser(user)
+                    setCurrentUser(authenticatedUser);
+                    return authenticatedUser;
                 },
                 logout: () => setCurrentUser(null),
                 setAuthError: () => {
-                    set({ authStatus: 'error' })
+                    set({ authStatus: 'error' });
                 },
-            }
+            };
         },
         {
             name: 'auth-storage',
@@ -59,11 +59,11 @@ export const useAuthStore = create<AuthState>()(
             }),
             onRehydrateStorage: () => (state, error) => {
                 if (error) {
-                    state?.setAuthError()
-                    return
+                    state?.setAuthError();
+                    return;
                 }
-                state?.initializeAuth()
+                state?.initializeAuth();
             },
-        },
-    ),
-)
+        }
+    )
+);
