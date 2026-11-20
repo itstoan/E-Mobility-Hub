@@ -20,3 +20,5 @@ export { MetricCard } from './MetricCard';
 export type { MetricCardProps } from './MetricCard';
 export { Table } from './Table';
 export type { TableColumn, TableProps } from './Table';
+export { Banner } from './Banner';
+export type { BannerProps, BannerVariant } from './Banner';
