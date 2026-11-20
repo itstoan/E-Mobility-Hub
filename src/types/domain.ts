@@ -179,6 +179,9 @@ export interface MockDatabase {
 
   //UC07
   monitoring: MonitoringData;
+
+  // UC11
+  simulation: SimulationData;
 }
 
 // UC07: Aggregate monitoring snapshots.
@@ -203,3 +206,51 @@ export interface MonitoringData {
   currentSnapshots: MonitoringHubSnapshot[];
   lastKnownSnapshots: MonitoringHubSnapshot[];
 }
+
+
+// UC11: Operational Simulation
+export interface SimulationInputs {
+  testHubId: Id;
+  demandChangePercent: number;
+  unavailableResourcePercent: number;
+  batteryLevelPercent: number;
+}
+
+export interface SimulationHubRow {
+  hubId: Id;
+
+  // Reference snapshot
+  referenceAvailableVehicles: number;
+  referenceParkingOccupied: number;
+
+  // Simulated outcome
+  simulatedAvailableVehicles: number;
+  simulatedParkingOccupied: number;
+
+  // Capacity
+  parkingCapacity: number;
+
+  // Charging resources
+  referenceChargingAvailable: number;
+  simulatedChargingAvailable: number;
+  chargingPortCapacity: number;
+
+  // Hypothetical risk
+  risk: "Parking-capacity risk" | "Vehicle-shortage risk" | null;
+}
+
+export interface SimulationScenario {
+  id: Id;
+  title: string;
+  inputs: SimulationInputs;
+  rows: SimulationHubRow[];
+  outcome: "imbalance" | "no-imbalance";
+}
+
+export interface SimulationData {
+  defaultInputs: SimulationInputs;
+  imbalanceScenario: SimulationScenario;
+  noImbalanceScenario: SimulationScenario;
+}
+
+

@@ -1,4 +1,4 @@
-import type { MockDatabase } from "../../types/domain";
+import type { MockDatabase, SimulationInputs } from "../../types/domain";
 import { mockUsers } from "./users";
 
 /** Deterministic relative-time seed; invoke with a fixed Date for repeatable tests. */
@@ -15,6 +15,22 @@ export function createMockSeed(now: Date = new Date()): MockDatabase {
     ).toISOString();
   const activeSessionStartAt = at(-30);
   const activeSessionEndAt = at(180);
+
+// UC11: Default simulation inputs
+const defaultSimulationInputs: SimulationInputs = {
+  testHubId: "HUB-B",
+  demandChangePercent: 20,
+  unavailableResourcePercent: 20,
+  batteryLevelPercent: 60,
+};
+
+const noImbalanceSimulationInputs: SimulationInputs = {
+  testHubId: "HUB-B",
+  demandChangePercent: 0,
+  unavailableResourcePercent: 0,
+  batteryLevelPercent: 80,
+};
+
 
   return {
     users: mockUsers.map((user) => ({ ...user })),
@@ -180,6 +196,101 @@ export function createMockSeed(now: Date = new Date()): MockDatabase {
         },
       ],
     },
+
+  simulation: {
+    defaultInputs: defaultSimulationInputs,
+
+    // Scenario 1: Resource imbalance
+    imbalanceScenario: {
+      id: "SIM-2026-001",
+      title: "Illustrative imbalance results",
+      inputs: defaultSimulationInputs,
+      outcome: "imbalance",
+
+      rows: [
+        {
+          hubId: "HUB-A",
+
+          referenceAvailableVehicles: 8,
+          referenceParkingOccupied: 12,
+
+          simulatedAvailableVehicles: 3,
+          simulatedParkingOccupied: 19,
+
+          parkingCapacity: 20,
+
+          referenceChargingAvailable: 2,
+          simulatedChargingAvailable: 2,
+          chargingPortCapacity: 4,
+
+          risk: "Parking-capacity risk",
+        },
+        {
+          hubId: "HUB-B",
+
+          referenceAvailableVehicles: 6,
+          referenceParkingOccupied: 10,
+
+          simulatedAvailableVehicles: 1,
+          simulatedParkingOccupied: 14,
+
+          parkingCapacity: 20,
+
+          referenceChargingAvailable: 1,
+          simulatedChargingAvailable: 1,
+          chargingPortCapacity: 4,
+
+          risk: "Vehicle-shortage risk",
+        },
+      ],
+    },
+
+    // Scenario 2: No resource imbalance
+    noImbalanceScenario: {
+      id: "SIM-2026-002",
+      title: "Balanced network scenario",
+      inputs: noImbalanceSimulationInputs,
+      outcome: "no-imbalance",
+
+      rows: [
+        {
+          hubId: "HUB-A",
+
+          referenceAvailableVehicles: 8,
+          referenceParkingOccupied: 12,
+
+          simulatedAvailableVehicles: 8,
+          simulatedParkingOccupied: 12,
+
+          parkingCapacity: 20,
+
+          referenceChargingAvailable: 2,
+          simulatedChargingAvailable: 2,
+          chargingPortCapacity: 4,
+
+          risk: null,
+        },
+        {
+          hubId: "HUB-B",
+
+          referenceAvailableVehicles: 6,
+          referenceParkingOccupied: 10,
+
+          simulatedAvailableVehicles: 6,
+          simulatedParkingOccupied: 10,
+
+          parkingCapacity: 20,
+
+          referenceChargingAvailable: 1,
+          simulatedChargingAvailable: 1,
+          chargingPortCapacity: 4,
+
+          risk: null,
+        },
+      ],
+    },
+  },
+
     // UC08 proposals are not committed allocations until the operator confirms them.
     chargingScheduleProposals: [
       { id: "CSP-01", requestId: "CR-01", portId: "CP-B01",
@@ -226,4 +337,5 @@ export function createMockSeed(now: Date = new Date()): MockDatabase {
         affectedId: "CS-01", status: "pending_review" },
     ],
   };
+  
 }
