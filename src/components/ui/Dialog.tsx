@@ -31,7 +31,7 @@ export function Dialog({ open, onClose, title, children, footer }: DialogProps) 
         event.preventDefault();
         onClose();
       }}
-      className="m-auto w-[min(32rem,calc(100%-2rem))] rounded-lg bg-white p-0 text-slate-900 shadow-xl backdrop:bg-black/50"
+      className="m-auto w-[min(32rem,calc(100%-2rem))] rounded-lg bg-surface-page p-0 text-text-primary shadow-xl backdrop:bg-sidebar-bg/50"
     >
       <div className="p-5">
         <div className="flex items-start justify-between gap-4">
@@ -40,7 +40,7 @@ export function Dialog({ open, onClose, title, children, footer }: DialogProps) 
             type="button"
             onClick={onClose}
             aria-label="Close dialog"
-            className="rounded p-1 focus-visible:outline-2"
+            className="rounded p-1 text-text-secondary hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-brand-primary"
           >
             ×
           </button>
