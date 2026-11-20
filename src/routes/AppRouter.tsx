@@ -22,6 +22,7 @@ import { HubResourcesDetailPage } from '../features/monitoring/pages/HubResource
 import { ManageChargingPage } from '../features/charging/pages/ManageChargingPage';
 import { CoordinateVehiclesPage } from '../features/vehicle-coordination/pages/CoordinateVehiclesPage';
 import { ReviewCoordinationProposalPage } from '../features/vehicle-coordination/pages/ReviewCoordinationProposalPage';
+import { OperationalSimulationPage } from '../features/simulation/pages/OperationalSimulationPage';
 
 //UC04, UC06, UC10 imports 
 import { ActiveTripReturnPage } from '../features/reservations/pages/ActiveTripReturnPage';
@@ -149,13 +150,7 @@ export function AppRouter() {
                     />
                     <Route
                         path={ROUTES.OPERATOR.SIMULATION}
-                        element={
-                            <RouteStub
-                                useCase="UC11"
-                                title="What-If Operational Simulation"
-                                featurePath="src/features/simulation/pages/OperationalSimulationPage.tsx"
-                            />
-                        }
+                        element={<OperationalSimulationPage />}
                     />
                 </Route>
             </Route>
