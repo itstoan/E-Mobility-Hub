@@ -6,57 +6,86 @@
     --font-brand: "Jura", ui-sans-serif, system-ui, sans-serif;
 
     /* === Màu thương hiệu và Sidebar === */
-    --color-brand-primary: #087F65;      /* Nút chính, viền nút phụ, chữ liên kết, thanh pin */
-    --color-brand-medium: #19AD7C;       /* Trạng thái hover và pressed của các thành phần tương tác */
-    --color-brand-accent: #20E3B2;       /* Logo tia sét, icon của mục đang active trên Sidebar */
-    --color-brand-accent-soft: #B9FFEB;  /* Nền highlight màu mint nhạt, dùng để nhấn mạnh nội dung */
+    --color-brand-primary: #087F65;
+    /* Nút chính, viền nút phụ, chữ liên kết, thanh pin */
+    --color-brand-medium: #19AD7C;
+    /* Trạng thái hover và pressed của các thành phần tương tác */
+    --color-brand-accent: #20E3B2;
+    /* Logo tia sét, icon của mục đang active trên Sidebar */
+    --color-brand-accent-soft: #B9FFEB;
+    /* Nền highlight màu mint nhạt, dùng để nhấn mạnh nội dung */
 
-    --color-sidebar-bg: #071A1A;         /* Màu nền chính của Sidebar */
-    --color-sidebar-active: #0D2928;     /* Màu nền của mục điều hướng đang được chọn trên Sidebar */
+    --color-sidebar-bg: #071A1A;
+    /* Màu nền chính của Sidebar */
+    --color-sidebar-active: #0D2928;
+    /* Màu nền của mục điều hướng đang được chọn trên Sidebar */
 
     /* === Màu chữ === */
-    --color-text-primary: #071A1A;       /* Tiêu đề chính, tên Hub/Xe và các giá trị số liệu quan trọng */
-    --color-text-secondary: #52615D;     /* Nội dung mô tả phụ và nội dung trong bảng */
-    --color-text-muted: #788780;         /* Nhãn phụ, breadcrumb và placeholder */
-    --color-text-subtle: #A8BCB6;         /* Icon ít nhấn mạnh và chữ ở trạng thái disabled */
+    --color-text-primary: #071A1A;
+    /* Tiêu đề chính, tên Hub/Xe và các giá trị số liệu quan trọng */
+    --color-text-secondary: #52615D;
+    /* Nội dung mô tả phụ và nội dung trong bảng */
+    --color-text-muted: #788780;
+    /* Nhãn phụ, breadcrumb và placeholder */
+    --color-text-subtle: #A8BCB6;
+    /* Icon ít nhấn mạnh và chữ ở trạng thái disabled */
 
     /* === Màu nền (Surface) === */
-    --color-surface-page: #FFFFFF;       /* Nền trang chính và nền mặc định của Card */
-    --color-surface-subtle: #F4F8F7;     /* Nền tiêu đề Table, hộp thông tin và các vùng nội dung phụ */
-    --color-surface-alt: #F4FAF8;        /* Nền sáng thay thế cho các khu vực nội dung phụ */
-    --color-surface-muted: #EFF2F1;      /* Nền trung tính, dùng cho các vùng hoặc trạng thái ít nhấn mạnh */
-    --color-surface-hover: #EBEFEB;      /* Màu nền khi hover */
-    --color-surface-selected: #E7F5EF;   /* Nền phần tử được chọn và banner thông báo thành công */
+    --color-surface-page: #FFFFFF;
+    /* Nền trang chính và nền mặc định của Card */
+    --color-surface-subtle: #F4F8F7;
+    /* Nền tiêu đề Table, hộp thông tin và các vùng nội dung phụ */
+    --color-surface-alt: #F4FAF8;
+    /* Nền sáng thay thế cho các khu vực nội dung phụ */
+    --color-surface-muted: #EFF2F1;
+    /* Nền trung tính, dùng cho các vùng hoặc trạng thái ít nhấn mạnh */
+    --color-surface-hover: #EBEFEB;
+    /* Màu nền khi hover */
+    --color-surface-selected: #E7F5EF;
+    /* Nền phần tử được chọn và banner thông báo thành công */
 
     /* === Màu đường viền (Border) === */
-    --color-border-default: #D5DFDB;     /* Viền mặc định của Card, Table và Input */
-    --color-border-strong: #CBDCD6;      /* Đường phân cách (Divider) và đường viền cần nhấn mạnh */
-    --color-border-mint: #D0E5DF;        /* Viền hộp thông báo thành công */
+    --color-border-default: #D5DFDB;
+    /* Viền mặc định của Card, Table và Input */
+    --color-border-strong: #CBDCD6;
+    /* Đường phân cách (Divider) và đường viền cần nhấn mạnh */
+    --color-border-mint: #D0E5DF;
+    /* Viền hộp thông báo thành công */
 
     /* === StatusBadge và Alert === */
 
     /* Success - Thành công */
-    --color-status-success-bg: #E7F5EF;   /* Màu nền Badge trạng thái thành công */
-    --color-status-success-text: #087F65; /* Màu chữ Badge và nội dung thông báo thành công */
+    --color-status-success-bg: #E7F5EF;
+    /* Màu nền Badge trạng thái thành công */
+    --color-status-success-text: #087F65;
+    /* Màu chữ Badge và nội dung thông báo thành công */
 
     /* Warning - Cảnh báo */
-    --color-status-warning-bg: #FFF5E6;       /* Màu nền Badge cảnh báo */
-    --color-status-warning-bg-soft: #FAF5EA;  /* Nền cảnh báo với sắc độ nhẹ hơn */
-    --color-status-warning-text: #926017;     /* Màu chữ Badge và nội dung cảnh báo chính */
-    --color-status-warning-text-alt: #806127; /* Màu chữ cảnh báo thay thế */
+    --color-status-warning-bg: #FFF5E6;
+    /* Màu nền Badge cảnh báo */
+    --color-status-warning-bg-soft: #FAF5EA;
+    /* Nền cảnh báo với sắc độ nhẹ hơn */
+    --color-status-warning-text: #926017;
+    /* Màu chữ Badge và nội dung cảnh báo chính */
+    --color-status-warning-text-alt: #806127;
+    /* Màu chữ cảnh báo thay thế */
 
     /* Danger - Nguy hiểm / Lỗi */
-    --color-status-danger-bg: #FCE7E7;       /* Màu nền Badge trạng thái lỗi */
-    --color-status-danger-surface: #FFF4F2;  /* Nền Alert Box và Input khi có lỗi */
-    --color-status-danger-border: #E6B7B1;   /* Viền Alert Box và Input khi có lỗi */
-    --color-status-danger-text: #B42318;     /* Màu chữ Badge và nội dung thông báo lỗi */
+    --color-status-danger-bg: #FCE7E7;
+    /* Màu nền Badge trạng thái lỗi */
+    --color-status-danger-surface: #FFF4F2;
+    /* Nền Alert Box và Input khi có lỗi */
+    --color-status-danger-border: #E6B7B1;
+    /* Viền Alert Box và Input khi có lỗi */
+    --color-status-danger-text: #B42318;
+    /* Màu chữ Badge và nội dung thông báo lỗi */
 
     /* Neutral - Trung tính */
-    --color-status-neutral-bg: #EFF2F1;      /* Màu nền Badge trạng thái trung tính */
-     --color-status-neutral-text: #52615D;    /* Màu chữ Badge trạng thái trung tính */
+    --color-status-neutral-bg: #EFF2F1;
+    /* Màu nền Badge trạng thái trung tính */
+    --color-status-neutral-text: #52615D;
+    /* Màu chữ Badge trạng thái trung tính */
 }
-
-
 
 @layer base {
     body {
@@ -65,7 +94,25 @@
         -moz-osx-font-smoothing: grayscale;
     }
 
-    h1 {
+    h1,
+    h2,
+    h3,
+    h4,
+    strong,
+    b {
         font-family: var(--font-heading);
+    }
+
+    /* Chữ bold / semi-bold trong body dùng Jost; riêng nút bấm quy ước normal text dùng Inter */
+    main .font-semibold,
+    main .font-bold {
+        font-family: var(--font-heading);
+    }
+
+    button,
+    main button,
+    main button.font-semibold,
+    main button.font-bold {
+        font-family: var(--font-sans);
     }
 }

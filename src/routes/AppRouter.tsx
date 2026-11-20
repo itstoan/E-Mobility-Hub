@@ -1,4 +1,15 @@
 import { Navigate, Route, Routes } from 'react-router';
+import { LoginPage } from '../features/auth';
+import {
+    ExploreHubsPage,
+    VehicleDetailsPage,
+} from '../features/mobility-hub';
+import {
+    MyReservationsPage,
+    ParkingReservationPage,
+    VehiclePickupPage,
+    VehicleReservePage,
+} from '../features/reservations';
 import { MainLayout } from '../layouts';
 import { useAuthStore } from '../stores/useAuthStore';
 import type { UserRole } from '../types/domain';
@@ -13,14 +24,14 @@ interface RouteStubProps {
 
 function RouteStub({ useCase, title, featurePath }: RouteStubProps) {
     return (
-        <div className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6">
-            <span className="inline-block rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800">
+        <div className="rounded-2xl border border-border-default bg-surface-subtle p-6">
+            <span className="inline-block rounded-full bg-status-success-bg px-3 py-1 font-heading text-xs font-bold text-status-success-text">
                 {useCase}
             </span>
-            <h1 className="mt-2 font-heading text-3xl font-semibold text-slate-900">
+            <h1 className="mt-2 font-heading text-3xl font-bold text-text-primary">
                 {title}
             </h1>
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm text-text-secondary">
                 Feature target: <code>{featurePath}</code>
             </p>
         </div>
@@ -44,16 +55,7 @@ export function AppRouter() {
 
             {/* Public Route: UC00 */}
             <Route element={<PublicOnlyRoute />}>
-                <Route
-                    path={ROUTES.LOGIN}
-                    element={
-                        <RouteStub
-                            useCase="UC00"
-                            title="Sign In to Smart E-Mobility Hub"
-                            featurePath="src/features/auth/pages/LoginPage.tsx"
-                        />
-                    }
-                />
+                <Route path={ROUTES.LOGIN} element={<LoginPage />} />
             </Route>
 
             {/* Student Protected Routes: UC01 - UC06 */}
@@ -63,75 +65,36 @@ export function AppRouter() {
                         path={ROUTES.STUDENT.ROOT}
                         element={<Navigate to={ROUTES.STUDENT.HUBS} replace />}
                     />
-                    <Route
-                        path={ROUTES.STUDENT.HUBS}
-                        element={
-                            <RouteStub
-                                useCase="UC01"
-                                title="Search Mobility Hubs and Resources"
-                                featurePath="src/features/mobility-hub/pages/ExploreHubsPage.tsx"
-                            />
-                        }
-                    />
+                    <Route path={ROUTES.STUDENT.HUBS} element={<ExploreHubsPage />} />
                     <Route
                         path={ROUTES.STUDENT.VEHICLE_DETAILS()}
-                        element={
-                            <RouteStub
-                                useCase="UC01"
-                                title="Shared Electric Vehicle Details"
-                                featurePath="src/features/mobility-hub/pages/VehicleDetailsPage.tsx"
-                            />
-                        }
+                        element={<VehicleDetailsPage />}
                     />
                     <Route
                         path={ROUTES.STUDENT.VEHICLE_RESERVE()}
-                        element={
-                            <RouteStub
-                                useCase="UC02"
-                                title="Confirm Vehicle Reservation"
-                                featurePath="src/features/reservations/pages/VehicleReservePage.tsx"
-                            />
-                        }
+                        element={<VehicleReservePage />}
                     />
                     <Route
                         path={ROUTES.STUDENT.RESERVATIONS}
-                        element={
-                            <RouteStub
-                                useCase="UC02 / UC03"
-                                title="My Reservations"
-                                featurePath="src/features/reservations/pages/MyReservationsPage.tsx"
-                            />
-                        }
+                        element={<MyReservationsPage />}
                     />
                     <Route
                         path={ROUTES.STUDENT.PICKUP_VEHICLE()}
-                        element={
-                            <RouteStub
-                                useCase="UC03"
-                                title="Verify & Pick Up Shared Electric Vehicle"
-                                featurePath="src/features/reservations/pages/VehiclePickupPage.tsx"
-                            />
-                        }
+                        element={<VehiclePickupPage />}
                     />
                     <Route
                         path={ROUTES.STUDENT.ACTIVE_TRIP()}
                         element={
                             <RouteStub
-                                useCase="UC03 / UC04"
-                                title="Active Trip & Return Shared Electric Vehicle"
+                                useCase="UC04"
+                                title="Return Shared Electric Vehicle"
                                 featurePath="src/features/reservations/pages/ActiveTripReturnPage.tsx"
                             />
                         }
                     />
                     <Route
                         path={ROUTES.STUDENT.PARKING}
-                        element={
-                            <RouteStub
-                                useCase="UC05"
-                                title="Reserve a Parking Space"
-                                featurePath="src/features/reservations/pages/ParkingReservationPage.tsx"
-                            />
-                        }
+                        element={<ParkingReservationPage />}
                     />
                     <Route
                         path={ROUTES.STUDENT.CHARGING}
