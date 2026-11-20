@@ -19,6 +19,7 @@ import { ProtectedRoute, PublicOnlyRoute } from './ProtectedRoute';
 //UC07 import
 import { MonitorNetworkPage } from '../features/monitoring/pages/MonitorNetworkPage';
 import { HubResourcesDetailPage } from '../features/monitoring/pages/HubResourcesDetailPage';
+import { ManageChargingPage } from '../features/charging/pages/ManageChargingPage';
 
 interface RouteStubProps {
     useCase: string;
@@ -130,13 +131,8 @@ export function AppRouter() {
                     />
                     <Route
                         path={ROUTES.OPERATOR.CHARGING}
-                        element={
-                            <RouteStub
-                                useCase="UC08"
-                                title="Manage and Schedule Charging"
-                                featurePath="src/features/charging/pages/ManageChargingPage.tsx"
-                            />
-                        }
+                        element={<ManageChargingPage />}
+
                     />
                     <Route
                         path={ROUTES.OPERATOR.COORDINATION}
