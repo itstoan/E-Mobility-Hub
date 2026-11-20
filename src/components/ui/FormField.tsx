@@ -15,16 +15,22 @@ export function FormField({
   hint,
   error,
   required = false,
-  children,}: FormFieldProps) {
+  children,
+}: FormFieldProps) {
   return (
     <div className="space-y-1.5">
-      <label htmlFor={id} className="block text-sm font-medium text-slate-900">
-        {label}{required && <span aria-hidden="true"> *</span>}
+      <label htmlFor={id} className="block text-sm font-medium text-text-primary">
+        {label}
+        {required && <span aria-hidden="true" className="text-status-danger-text"> *</span>}
       </label>
       {children}
-      {hint && <p id={`${id}-hint`} className="text-sm text-slate-600">{hint}</p>}
+      {hint && (
+        <p id={`${id}-hint`} className="text-sm text-text-secondary">
+          {hint}
+        </p>
+      )}
       {error && (
-        <p id={`${id}-error`} className="text-sm text-red-700" role="alert">
+        <p id={`${id}-error`} className="text-sm text-status-danger-text" role="alert">
           {error}
         </p>
       )}

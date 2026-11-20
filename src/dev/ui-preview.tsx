@@ -64,7 +64,7 @@ export function UIPreview() {
   const previewHubs = [
   { id: 'hub-001', name: 'Campus Hub A', location: 'District 1', connectionStatus: 'online', capacity: 24 },
   { id: 'hub-002', name: 'Campus Hub B', location: 'District 3', connectionStatus: 'disconnected', capacity: 18 },
-] as const;
+];
 
 const hubColumns: TableColumn<(typeof previewHubs)[number]>[] = [
   { key: 'name', header: 'Hub Name' },
