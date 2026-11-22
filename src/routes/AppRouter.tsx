@@ -30,29 +30,6 @@ import { StudentChargingRequestPage } from '../features/charging/pages/StudentCh
 import { ManageIncidentsPage } from '../features/incidents/pages/ManageIncidentsPage';
 import { IncidentDetailsPage } from '../features/incidents/pages/IncidentDetailsPage';
 
-
-interface RouteStubProps {
-    useCase: string;
-    title: string;
-    featurePath: string;
-}
-
-function RouteStub({ useCase, title, featurePath }: RouteStubProps) {
-    return (
-        <div className="rounded-2xl border border-border-default bg-surface-subtle p-6">
-            <span className="inline-block rounded-full bg-status-success-bg px-3 py-1 font-heading text-xs font-bold text-status-success-text">
-                {useCase}
-            </span>
-            <h1 className="mt-2 font-heading text-3xl font-bold text-text-primary">
-                {title}
-            </h1>
-            <p className="mt-1 text-sm text-text-secondary">
-                Feature target: <code>{featurePath}</code>
-            </p>
-        </div>
-    );
-}
-
 function RootRedirect() {
     const currentUser = useAuthStore((state) => state.currentUser);
     const authStatus = useAuthStore((state) => state.authStatus);

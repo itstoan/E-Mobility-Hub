@@ -21,6 +21,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 # Test and coverage
+playwright-report/
+test-results/
+vitest-report/
 coverage/
 
 # Local configuration
